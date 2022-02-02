@@ -1,0 +1,29 @@
+ {% extends 'base.html' %}
+ {% load static %}
+ {% load humanize %}
+ {% block title %}
+ Perfil do Veículo
+ {% endblock title %}
+ {% block content %}
+ <div class="row">
+   <div class="col-md-4">
+     <div class="thumbnail">
+         <img src="{{veiculo.foto_capa.url}}" style="width:100%">
+         <div class="caption">
+         </div>
+     </div>
+   </div>
+     <div class="col-md-8">
+         <ul class="list-group">
+           <li class="list-group-item">Marca: {{veiculo.marca}}</li>
+           <li class="list-group-item"> Modelo: {{veiculo.modelo}}</li>
+           <li class="list-group-item">Cor: {{veiculo.cor}}</li>
+           <li class="list-group-item">Placa: {{veiculo.placa}}</li>
+            <li class="list-group-item">Ano: {{veiculo.ano}}</li>
+           <li class="list-group-item">Preço: R${{veiculo.preco|intcomma}}</li>
+           <li class="list-group-item">Nome do Proprietário: {{veiculo.proprietario.nome}}</li>
+           <li class="list-group-item">Tel. do Proprietário: {{veiculo.proprietario.telefone}}</li>
+         </ul>
+     </div>
+ </div>
+ {% endblock content %}

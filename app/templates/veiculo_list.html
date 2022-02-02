@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title %}
+Listagem de Veículos
+{% endblock title %}
+ {% block content %}
+ <div class="row">
+ <form method="get">
+     <div class="col-lg-12">
+     <div class="input-group">
+       <input type="text" class="form-control" name="busca"
+         placeholder="Buscar veículo">
+       <span class="input-group-btn"><button class="btn btn-default" type="submit">Pesquisar</button>
+       </span>
+     </div>
+     </div>
+ </form>
+ </div>
+<br>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Ordenar</h3>
+    </div>
+    <div class="panel-body">
+        <form method="get">
+        <div class="btn-group" role="group">
+            {% with cat=request.GET.ordenar %}
+                <button type="submit" class="btn btn-default {% if cat == 'preco' %} disabled {% endif %}"
+                        name="ordenar" value="preco">Menores Preços</button>
+                <button type="submit" class="btn btn-default {% if cat == '-preco' %} disabled {% endif %}"
+                        name="ordenar" value="-preco">Maiores Preços</button>
+                <button type="submit" class="btn btn-default {% if cat == 'ano' %} disabled {% endif %}"
+                        name="ordenar" value="ano">Mais antigos</button>
+                <button type="submit" class="btn btn-default {% if cat == '-ano' %} disabled {% endif %}"
+                        name="ordenar" value="-ano">Mais novos</button>
+            {% endwith %}
+        </div>
+        </form>
+    </div>
+</div>
+<br>
+<div class="row">
+    {% for veiculo in lista %}
+   <div class="col-md-4">
+     <div class="thumbnail">
+       <a href="{% url 'perfil_veiculo' pk=veiculo.pk %}">
+         <img src="{{veiculo.foto_capa.url}}" style="width:100%">
+         <div class="caption">
+           <p>{{veiculo.modelo}} - {{veiculo.ano}} - R${{veiculo.preco|intcomma}}</p>
+         </div>
+       </a>
+     </div>
+   </div>
+ {% endfor %}
+ </div>
+ <div class="pagination">
+     <span class="step-links">
+         {% if lista.has_previous %}
+             <a href="?page={{ lista.previous_page_number }}">anterior</a>
+         {% endif %}
+         <span class="current">
+             Página {{ lista.number }} de {{ lista.paginator.num_pages }}.
+         </span>
+          {% if lista.has_next %}
+             <a href="?page={{ lista.next_page_number }}">próxima</a>
+         {% endif %}
+     </span>
+ </div>
+ {% endblock content %}
